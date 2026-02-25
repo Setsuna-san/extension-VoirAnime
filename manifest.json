@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "My VoirAnime List",
+  "version": "1.0",
+  "description": "Track les animés regardés pour avoir un historique",
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+
+  "permissions": ["tabs", "storage", "contextMenus"],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["https://v6.voiranime.com/anime/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://v6.voiranime.com/*"],
+      "js": ["contentHub.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["http://localhost:4200/*", "https://projet-mega.web.app/*"],
+      "js": ["contentLinker.js"],
+      "run_at": "document_start"
+    }
+  ]
+}

@@ -1,0 +1,215 @@
+html {
+  width: 300px;
+}
+
+body {
+  background: #1e1d24; /* fond semi-transparent */
+  color: white;
+  padding: 0.5em;
+  margin: 0;
+  border: grey 3px solid;
+}
+
+.title {
+  font-size: 10cqw;
+  font-weight: 900;
+  text-align: center;
+  white-space: nowrap;
+  margin: 5px;
+  padding: 0.4em;
+  border: 3px solid whitesmoke;
+  border-radius: 15px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  container-type: inline-size;
+}
+
+.disabled {
+  pointer-events: fill;
+  color: grey;
+}
+
+.disabled:hover {
+  cursor: not-allowed;
+}
+
+.btn-line {
+  margin: 5px;
+  display: flex;
+  gap: 5px;
+  text-align: center;
+}
+
+.btn-line a {
+  color: white;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  background-color: #1e1d24;
+  border: 3px solid whitesmoke;
+  border-radius: 10px;
+  padding: 0.5em;
+  transition: 0.4s;
+}
+
+.btn-line a:hover {
+  background-color: whitesmoke;
+  color: #7289da;
+}
+
+#btn-redirect {
+  width: calc(55% - 2.5px);
+}
+
+#btn-disable,
+#btn-enable {
+  width: calc(45% - 2.5px);
+}
+
+.conteneur-switch a {
+  font-size: 15px;
+  width: 50%;
+  color: rgb(255, 255, 255);
+  border: 1px solid transparent;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  border-radius: 10px;
+  padding: 0.3em;
+  padding-left: 0.5em;
+  margin: 0.5em;
+  transition: 0.4s;
+  cursor: default;
+}
+
+.conteneur-switch {
+  width: 100%;
+  display: flex;
+  text-align: center;
+}
+
+.btn-switch {
+  border: 1px solid white !important;
+}
+
+.btn-switch:hover {
+  cursor: pointer;
+  color: #7289da;
+  background-color: white;
+  border-color: white;
+}
+
+
+
+.AnimeOverlay {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #7289da 40%, hsla(0, 0%, 0%, 0.6) 100%);
+  background-size: 200% 100%;
+  border: #9eb2fe 4px solid;
+  border-radius: 10px;
+  filter: opacity(60%);
+  gap: 5px;
+  margin: 5px;
+  padding: 5px;
+  width: calc(100% - 28px);
+  user-select: none;
+  transition: 0.4s;
+}
+
+.AnimeOverlay:hover {
+  border: hsla(0, 0%, 100%, 1) 4px solid;
+  background-color: hsla(227, 58%, 65%, 0.9);
+  filter: opacity(100%);
+  transform: scale(0.97);
+  background-position: 100% 0;
+}
+
+.principal {
+  filter: opacity(100%);
+}
+
+.anime-corp {
+  color: white;
+  overflow: hidden;
+  flex: 1;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 80%, transparent 100%);
+  padding: 0.2em;
+  padding-left: 0.6em;
+  transition: 0.4s;
+  border-radius: 8px;
+}
+
+.anime-corp:hover {
+  cursor: pointer;
+}
+
+.AnimeOverlay:has(.anime-corp:hover) {
+}
+
+.anime-corp:hover .anime-title {
+  text-decoration: underline;
+}
+
+.anime-corp .anime-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.anime-corp .anime-episode {
+  text-transform: capitalize;
+}
+
+.anime-btn svg {
+  vertical-align: middle;
+  width: 2em;
+  color: white;
+  stroke: white;
+  stroke-width: 40px;
+  transition: 0.3s ease;
+}
+
+.anime-btn svg:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  color: #7289da;
+}
+
+.anime-btn .disabled {
+  color: rgba(255, 255, 255, 0.32);
+  stroke: rgba(255, 255, 255, 0.8);
+}
+
+.anime-btn .disabled:hover {
+  color: rgba(0, 0, 0, 0.32);
+  transform: none;
+  cursor: not-allowed;
+}
+
+#hidden-btn {
+  display: flex;
+  margin: 0.2em;
+  margin-top: 0.5em;
+  width: 100%;
+  color: white;
+  justify-content: center;
+  font-weight: 800;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+#hidden-btn svg {
+  width: 1.5em;
+  color: white;
+}
+
+#hidden-anime-list {
+  display: none;
+}

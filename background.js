@@ -15,6 +15,7 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["link"],
     targetUrlPatterns: ["https://v6.voiranime.com/anime/*"],
   });
+  
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {

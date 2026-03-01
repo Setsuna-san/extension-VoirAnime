@@ -60,7 +60,7 @@ toggleBtn.addEventListener("click", function (e) {
 });
 
 // Crée dynamiquement un élément AnimeOverlay
-function createAnimeElement(anime) {
+function createAnimeElement(anime, watch) {
   console.log("creation anime element");
   const div = document.createElement("div");
   div.className = "AnimeOverlay";
@@ -97,7 +97,15 @@ function createAnimeElement(anime) {
   }
 
   // création de l'item "anime"
-  div.innerHTML = `
+
+  if (watch == true) {
+    div.innerHTML = `
+    <a class="anime-corp btn-play" data-url="${anime.url}"> 
+      <div class="anime-title">${anime.alias || anime.title}</div>
+    </a>
+  `;
+  } else {
+    div.innerHTML = `
     <a class="anime-corp btn-play" data-url="${anime.url}"> 
       <div class="anime-title">${anime.alias || anime.title}</div>
       <div class="anime-episode">Épisode ${anime.episode || "??"}</div>
@@ -106,6 +114,8 @@ function createAnimeElement(anime) {
       ${next}
     </div>
   `;
+  }
+
   return div;
 }
 
@@ -213,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .forEach((anime) => {
           if (anime.toWatch === true) {
-            const el = createAnimeElement(anime);
+            const el = createAnimeElement(anime, true);
             watchListContainer.appendChild(el);
           } else {
             // affiche uniquement quand l'anime est en principal

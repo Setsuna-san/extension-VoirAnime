@@ -13,7 +13,11 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 
     let link = links[0];
 
-    if(links[0].className == "asp_res_image_url" ) {
+    console.log("Id du lien : " + link.id);
+
+    if (link.id === "btn-read-last" || link.id === "btn-read-first") {
+    }
+    if (links[0].className == "asp_res_image_url") {
       link = links[1];
     }
 
@@ -25,3 +29,54 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     sendResponse({ title });
   }
 });
+
+const breadcrumb = document.querySelectorAll(".breadcrumb li");
+
+if (breadcrumb.length == 3) {
+  const style = document.createElement("style");
+
+  style.textContent = `
+  .c-btn_watch {
+    background-color: transparent;
+    color: #7289da ;
+    border: 3px solid #7289da ;
+    padding : 8px ; 
+    margin : 5px;
+    transition : 0.4s ;
+  }
+
+  .c-btn_watch:hover {
+    background-color: #7289da;
+    color: #fff !important ;
+  }
+`;
+
+  const boutons = document.getElementById("init-links");
+
+  const btn = document.createElement("a");
+  btn.href = "#";
+  btn.id = "btn-add-watch";
+  btn.className = "c-btn c-btn_watch";
+  btn.textContent = "Watch list";
+
+  boutons.appendChild(btn);
+
+  boutons.appendChild(style);
+
+  btn?.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const titre = document.getElementsByClassName("post-title")[0].textContent;
+
+    const anime = {
+      title: titre.trim(),
+      url: window.location.href,
+    };
+
+    console.log('ContentHub : manual add anime "to watch" : ' + anime.title);
+    chrome.runtime.sendMessage({
+      action: "addAnimeToWatch",
+      data: anime,
+    });
+  });
+}

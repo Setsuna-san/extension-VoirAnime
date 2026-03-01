@@ -66,8 +66,11 @@ async function addToWatch(anime) {
   const tx = db.transaction("anime", "readwrite");
   const store = tx.objectStore("anime");
   const index = store.index("title");
+  console.log('DB : start addToWatch' + anime.title + " et " + anime.url)
 
   if (!anime?.title || !anime?.url) return;
+
+  console.log('DB : step 1 addToWatch')
 
   const existing = await new Promise((resolve, reject) => {
     const request = index.get(anime.title);
@@ -75,10 +78,15 @@ async function addToWatch(anime) {
     request.onerror = (e) => reject(e.target.error);
   });
 
+
+
   if (existing) {
     console.log("Anime déjà enregistré");
     return;
   }
+
+  console.log('DB : step 2 addToWatch')
+
 
   anime.date = new Date();
   anime.nouveau = true;
@@ -92,6 +100,8 @@ async function addToWatch(anime) {
     request.onerror = (e) => reject(e.target.error);
   });
 
+  console.log('DB : step 3 addToWatch')
+
   console.log(`Anime "${anime.title}" ajouté en catégorie A voir`);
 
   // 🔥 Notifie le popup
@@ -99,6 +109,8 @@ async function addToWatch(anime) {
     action: "added-anime",
     anime: anime,
   });
+
+  console.log('DB : End addToWatch')
 
   return tx.complete;
 }

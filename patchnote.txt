@@ -1,0 +1,21 @@
+To do :
+    - Statut : 
+            Complet : en cours de visionnage, les épisodes sont tous deja sortie, par default
+            En cours :  en cours de visionnage, les épisodes sont en train de sortir, il faut controler la sortie des nouveaux, donc les afficher a part et afficher le temps depuis le dernier épisodes
+            Watch list : pas commencer mais a voir
+            Archiver : animé fini d'etre regarder 
+    
+    - Système de saison/groupe : pouvoir lier les differentes saison d'un même animé
+                        créer un nom de groupe qui est composer des differents saison ex : 
+
+                                        > Hajime no Ippo
+
+                                        v Hajime no Ippo
+                                            ⤷ hajime no ippo 
+                                            ⤷ Hajjime no ippo : road to champion
+                                            ⤷ etc ...
+                        
+                        Ne pas le faire dans l'extension, uniquement dans le tableau de gestion, important de ne pas rajouter un étape inutile dans le processus de suivi
+    
+    - Système d'organisation par genre/categorie ? 
+    - Système d'avis / commentaire / note ?

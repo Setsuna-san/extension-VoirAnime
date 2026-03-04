@@ -1,7 +1,21 @@
 console.log("Lancement content.js");
 
 window.addEventListener("DOMContentLoaded", () => {
-  if (document.URL === "https://v6.voiranime.com/anime/*/*") {
+
+  if (document.getElementsByClassName("plyr-container")) {
+    const nextBtn = document.querySelector(".nav-next .next_page");
+    const previousBtn = document.querySelector(".nav-previous .prev_page");
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key == "n") {
+        nextBtn.click();
+      }
+       if (event.key == "p") {
+        previousBtn.click();
+      }
+    });
+
+    console.log("Content : url validé");
     const breadcrumb = document.querySelectorAll(".breadcrumb li");
     const url = window.location.href;
     const alias = "";
@@ -13,11 +27,12 @@ window.addEventListener("DOMContentLoaded", () => {
     const episode = document
       .querySelector(".selectpicker_chapter option[selected]")
       .textContent.trim();
-    const nextBtn = document.querySelector(".nav-next .next_page");
 
     if (nextBtn) {
       next = nextBtn.href;
     }
+
+    console.log("Content : init message");
 
     if (breadcrumb.length >= 3) {
       const animeTitle = breadcrumb[1].querySelector("a")?.innerText.trim();

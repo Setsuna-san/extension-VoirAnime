@@ -75,3 +75,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 });
+
+chrome.commands.onCommand.addListener((command) => {
+  if (command === "next_episode") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "nextEpisode" });
+    });
+  }
+
+  if (command === "previous_episode") {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "previousEpisode" });
+    });
+  }
+});

@@ -1,17 +1,17 @@
 console.log("Lancement content.js");
 
 window.addEventListener("DOMContentLoaded", () => {
-
   if (document.getElementsByClassName("plyr-container")) {
     const nextBtn = document.querySelector(".nav-next .next_page");
     const previousBtn = document.querySelector(".nav-previous .prev_page");
 
-    window.addEventListener("keydown", (event) => {
-      if (event.key == "n") {
-        nextBtn.click();
+    chrome.runtime.onMessage.addListener((msg) => {
+      if (msg.action === "nextEpisode") {
+        nextBtn?.click();
       }
-       if (event.key == "p") {
-        previousBtn.click();
+
+      if (msg.action === "previousEpisode") {
+        previousBtn?.click();
       }
     });
 

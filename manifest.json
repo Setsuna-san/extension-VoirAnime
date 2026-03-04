@@ -18,6 +18,21 @@
 
   "permissions": ["tabs", "storage", "contextMenus"],
 
+  "commands": {
+    "next_episode": {
+      "suggested_key": {
+        "default": "Alt+N"
+      },
+      "description": "Episode suivant"
+    },
+    "previous_episode": {
+      "suggested_key": {
+        "default": "Alt+P"
+      },
+      "description": "Episode précédent"
+    }
+  },
+
   "background": {
     "service_worker": "background.js"
   },

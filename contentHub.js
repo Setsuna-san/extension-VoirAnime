@@ -31,8 +31,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
 });
 
 const breadcrumb = document.querySelectorAll(".breadcrumb li");
+const boutons = document.getElementById("init-links");
 
-if (breadcrumb.length == 3) {
+if (breadcrumb.length == 3 && boutons) {
   const style = document.createElement("style");
 
   style.textContent = `
@@ -51,7 +52,7 @@ if (breadcrumb.length == 3) {
   }
 `;
 
-  const boutons = document.getElementById("init-links");
+  
 
   const btn = document.createElement("a");
   btn.href = "#";

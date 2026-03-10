@@ -97,7 +97,6 @@ function createAnimeElement(anime, watch) {
   }
 
   // création de l'item "anime"
-
   if (watch == true) {
     div.innerHTML = `
     <a class="anime-corp btn-play" data-url="${anime.url}"> 
@@ -113,6 +112,14 @@ function createAnimeElement(anime, watch) {
     <div class="anime-btn">
       ${next}
     </div>
+  `;
+  }
+
+  if (anime.nouveau) {
+    div.innerHTML += `
+    <a class="btn-new" data-anime="${anime.titre}">
+      Nouveau
+    </a>
   `;
   }
 
@@ -208,6 +215,20 @@ document.addEventListener("DOMContentLoaded", () => {
         redirectTo(url);
       }
     }
+
+    const btnNew = e.target.closest(".btn-new");
+    if (btnNew) {
+      e.preventDefault();
+      btnNew.display = "none";
+
+      const anime = btnNext.dataset.anime;
+      anime.nouveau = false;
+
+      chrome.runtime.sendMessage({
+        action: "updateAnime",
+        data: anime,
+      });
+    }
   });
 
   // Récupère la liste depuis la DB de l'extension
@@ -236,6 +257,12 @@ document.addEventListener("DOMContentLoaded", () => {
               const el = createAnimeElement(anime);
               animeHiddenListContainer.appendChild(el);
             }
+          }
+          if (anime.nouveau == true) {
+            chrome.runtime.sendMessage({
+              action: "switchStatut",
+              data: { title: anime.title, statut : "nouveau", value : false },
+            });
           }
         });
       if (!normals) {

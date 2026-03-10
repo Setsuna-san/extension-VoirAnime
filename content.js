@@ -1,5 +1,12 @@
 console.log("Lancement content.js");
 
+function playNotifSound() {
+  console.log("Background : play sound notif");
+  const audio = new Audio(chrome.runtime.getURL("./Sounds/notif2.mp3"));
+  audio.play();
+}
+
+
 window.addEventListener("DOMContentLoaded", () => {
   if (document.getElementsByClassName("plyr-container")) {
     const nextBtn = document.querySelector(".nav-next .next_page");
@@ -13,6 +20,11 @@ window.addEventListener("DOMContentLoaded", () => {
       if (msg.action === "previousEpisode") {
         previousBtn?.click();
       }
+
+      if (msg.action === "PlayNotifSound") {
+        playNotifSound();
+      }
+
     });
 
     console.log("Content : url validé");

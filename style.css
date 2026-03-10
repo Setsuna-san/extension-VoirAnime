@@ -213,3 +213,14 @@ body {
 #hidden-anime-list {
   display: none;
 }
+
+
+.btn-new {
+  content: "new";
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 5px;
+  padding: 0.05em 0.2em 0.05em 0.2em;
+  transform: translateY(-50%);
+}

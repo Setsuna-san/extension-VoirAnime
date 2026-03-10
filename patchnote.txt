@@ -19,3 +19,12 @@ To do :
     
     - Système d'organisation par genre/categorie ? 
     - Système d'avis / commentaire / note ?
+    - Identification -> partage d'animé dans la watch list
+
+
+In work : 
+
+
+
+
+Finished : 

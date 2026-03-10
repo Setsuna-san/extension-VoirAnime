@@ -66,11 +66,11 @@ async function addToWatch(anime) {
   const tx = db.transaction("anime", "readwrite");
   const store = tx.objectStore("anime");
   const index = store.index("title");
-  console.log('DB : start addToWatch' + anime.title + " et " + anime.url)
+  console.log("DB : start addToWatch" + anime.title + " et " + anime.url);
 
   if (!anime?.title || !anime?.url) return;
 
-  console.log('DB : step 1 addToWatch')
+  console.log("DB : step 1 addToWatch");
 
   const existing = await new Promise((resolve, reject) => {
     const request = index.get(anime.title);
@@ -78,15 +78,12 @@ async function addToWatch(anime) {
     request.onerror = (e) => reject(e.target.error);
   });
 
-
-
   if (existing) {
     console.log("Anime déjà enregistré");
     return;
   }
 
-  console.log('DB : step 2 addToWatch')
-
+  console.log("DB : step 2 addToWatch");
 
   anime.date = new Date();
   anime.nouveau = true;
@@ -100,7 +97,7 @@ async function addToWatch(anime) {
     request.onerror = (e) => reject(e.target.error);
   });
 
-  console.log('DB : step 3 addToWatch')
+  console.log("DB : step 3 addToWatch");
 
   console.log(`Anime "${anime.title}" ajouté en catégorie A voir`);
 
@@ -109,8 +106,9 @@ async function addToWatch(anime) {
     action: "added-anime",
     anime: anime,
   });
+  updateBadge();
 
-  console.log('DB : End addToWatch')
+  console.log("DB : End addToWatch");
 
   return tx.complete;
 }
@@ -162,6 +160,7 @@ async function addAnimeToDB(anime) {
     // On met à jour l'enregistrement existant
     anime.id = existing.id;
     anime.alias = existing.alias;
+    anime.nouveau = false;
 
     await new Promise((resolve, reject) => {
       const request = store.put(anime);
@@ -169,12 +168,15 @@ async function addAnimeToDB(anime) {
       request.onerror = (e) => reject(e.target.error);
     });
 
-    console.log(`Anime "${anime.title}" mis à jour à l'épisode ${anime.episode}`);
+    console.log(
+      `Anime "${anime.title}" mis à jour à l'épisode ${anime.episode}`,
+    );
 
     safeSendMessage({
       action: "edited-anime",
       anime: anime,
     });
+    flashIcon();
   } else {
     await new Promise((resolve, reject) => {
       const request = store.add(anime);
@@ -182,13 +184,16 @@ async function addAnimeToDB(anime) {
       request.onerror = (e) => reject(e.target.error);
     });
 
-    console.log(`Anime "${anime.title}" ajouté avec l'épisode ${anime.episode}`);
+    console.log(
+      `Anime "${anime.title}" ajouté avec l'épisode ${anime.episode}`,
+    );
 
     safeSendMessage({
       action: "added-anime",
       anime: anime,
     });
   }
+  updateBadge();
 
   return tx.complete;
 }
@@ -233,6 +238,8 @@ async function updateAnime(anime) {
     action: "edited-anime",
     anime: anime,
   });
+  updateBadge();
+  flashIcon();
 
   console.log("BD : end update");
   return tx.complete;
@@ -284,4 +291,57 @@ async function getAllAnime() {
       }
     };
   });
+}
+
+/**
+ * Retire le(s) statuts
+ */
+async function switchStatut(title, statut, value) {
+  const db = await openDB();
+  const tx = db.transaction("anime", "readwrite");
+  const store = tx.objectStore("anime");
+  const index = store.index("title");
+
+  const anime = await new Promise((resolve, reject) => {
+    const request = index.get(title);
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+
+  console.log("Anime trouvé :", anime);
+
+  if (!anime) {
+    console.log("Anime introuvable");
+    return;
+  }
+
+  switch (statut) {
+    case "nouveau":
+      anime.nouveau = value;
+      break;
+
+    case "toWatch":
+      anime.toWatch = value;
+      break;
+
+    case "principal":
+      anime.principal = value;
+      break;
+
+    default:
+      console.log("Statut inconnu :", statut);
+      return;
+  }
+
+  store.put(anime);
+
+  await new Promise((resolve, reject) => {
+    tx.oncomplete = resolve;
+    tx.onerror = reject;
+  });
+  updateBadge();
+
+
+  console.log("BD : end switch");
 }

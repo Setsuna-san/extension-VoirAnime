@@ -15,7 +15,6 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["link"],
     targetUrlPatterns: ["https://v6.voiranime.com/anime/*"],
   });
-  
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -74,6 +73,14 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     updateAnime(msg.data).then(() => sendResponse({ status: "ok" }));
     return true;
   }
+
+  if (msg.action === "switchStatut") {
+    console.log("Background : switch statut");
+    switchStatut(msg.data.title, msg.data.statut, msg.data.value).then(() =>
+      sendResponse({ status: "ok" }),
+    );
+    return true;
+  }
 });
 
 chrome.commands.onCommand.addListener((command) => {
@@ -89,3 +96,49 @@ chrome.commands.onCommand.addListener((command) => {
     });
   }
 });
+
+function flashIcon() {
+  let flash = true;
+  let count = 0;
+
+  const interval = setInterval(() => {
+    chrome.action.setIcon({
+      path: flash ? "icon-flash.png" : "icon.png",
+    });
+    flash = !flash;
+    count++;
+    if (count > 3) {
+      clearInterval(interval);
+      chrome.action.setIcon({ path: "icon.png" }); // reset
+    }
+  }, 200); // clignotement toutes les 200ms
+}
+
+async function updateBadge() {
+  console.log("Background : update badge");
+
+  chrome.storage.local.get(["lastNotifCount"], (res) => {
+    lastNotifCount = res.lastNotifCount || 0;
+  });
+
+  const data = await getAllAnime();
+
+  const count = data.filter((a) => a.nouveau === true).length;
+
+  if (count > 0) {
+    chrome.action.setBadgeText({ text: count.toString() });
+    chrome.action.setBadgeBackgroundColor({ color: "#fff" });
+    setTimeout(() => {
+      chrome.action.setBadgeBackgroundColor({ color: "#ba0000" });
+    }, 100);
+  } else {
+    chrome.action.setBadgeText({ text: "" });
+  }
+  chrome.storage.local.set({ lastNotifCount: count });
+
+  if (lastNotifCount < count) {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.tabs.sendMessage(tabs[0].id, { action: "PlayNotifSound" });
+    });
+  }
+}

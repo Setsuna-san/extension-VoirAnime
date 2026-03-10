@@ -107,11 +107,11 @@ function flashIcon() {
     });
     flash = !flash;
     count++;
-    if (count > 3) {
+    if (count > 2) {
       clearInterval(interval);
       chrome.action.setIcon({ path: "icon.png" }); // reset
     }
-  }, 200); // clignotement toutes les 200ms
+  }, 400); // clignotement toutes les 200ms
 }
 
 async function updateBadge() {
@@ -130,7 +130,7 @@ async function updateBadge() {
     chrome.action.setBadgeBackgroundColor({ color: "#fff" });
     setTimeout(() => {
       chrome.action.setBadgeBackgroundColor({ color: "#ba0000" });
-    }, 100);
+    }, 300);
   } else {
     chrome.action.setBadgeText({ text: "" });
   }

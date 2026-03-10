@@ -1,5 +1,6 @@
 html {
   width: 300px;
+  max-height: 600px;
 }
 
 body {
@@ -103,7 +104,35 @@ body {
   border-color: white;
 }
 
+#anime-conteneur, #watch-conteneur {
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 400px;
 
+  /* Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #7289da #1e1e1e;
+}
+
+/* Chrome / Edge */
+#anime-conteneur::-webkit-scrollbar, #watch-conteneur::-webkit-scrollbar {
+  width: 8px;
+}
+
+#anime-conteneur::-webkit-scrollbar-track, #watch-conteneur::-webkit-scrollbar-track{
+  background: #1e1e1e;
+  border-radius: 10px;
+}
+
+#anime-conteneur::-webkit-scrollbar-thumb, #watch-conteneur::-webkit-scrollbar-thumb{
+  background: #7289da;
+  border-radius: 10px;
+  border: 2px solid #1e1e1e;
+}
+
+#anime-conteneur::-webkit-scrollbar-thumb:hover, #watch-conteneur::-webkit-scrollbar-thumb:hover{
+  background: #8ea1ff;
+}
 
 .AnimeOverlay {
   display: flex;
@@ -213,7 +242,6 @@ body {
 #hidden-anime-list {
   display: none;
 }
-
 
 .btn-new {
   content: "new";

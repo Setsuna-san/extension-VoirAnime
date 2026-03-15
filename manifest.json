@@ -39,7 +39,7 @@
 
   "web_accessible_resources": [
     {
-      "resources": ["Sounds/*.mp3"],
+      "resources": ["Sounds/*.mp3", "Icons/*"],
       "matches": ["<all_urls>"]
     }
   ],

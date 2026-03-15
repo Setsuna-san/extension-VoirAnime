@@ -1,5 +1,11 @@
 console.log("Lancement contentHub.js");
 
+function playNotifSound() {
+  console.log("Background : play sound notif");
+  const audio = new Audio(chrome.runtime.getURL("./Sounds/notif2.mp3"));
+  audio.play();
+}
+
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.action === "GET_LINK_TITLE") {
     console.log("ContentHub : get title called with " + msg.linkUrl);
@@ -27,6 +33,10 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       "Titre inconnu";
 
     sendResponse({ title });
+  }
+
+  if (msg.action === "PlayNotifSound") {
+    playNotifSound();
   }
 });
 
@@ -82,7 +92,15 @@ if (breadcrumb.length == 3 && boutons) {
   });
 }
 
-function injectBookmark(itemElement, title, link, isSaved, favFull, favEmpty, animeByTitle) {
+function injectBookmark(
+  itemElement,
+  title,
+  link,
+  isSaved,
+  favFull,
+  favEmpty,
+  animeByTitle,
+) {
   if (!itemElement || !title) return;
 
   const target =
@@ -105,8 +123,12 @@ function injectBookmark(itemElement, title, link, isSaved, favFull, favEmpty, an
   icon.style.width = "1.2em";
   icon.style.cursor = "pointer";
   icon.style.marginRight = "5px";
+  icon.style.zIndex = "10";
+  icon.style.position = "relative";
 
-  icon.addEventListener("click", () => {
+  icon.addEventListener("click", (event) => {
+    event.stopPropagation();
+    event.preventDefault();
     const currentlySaved = icon.classList.contains("fav-full");
     const nextSaved = !currentlySaved;
 
@@ -152,8 +174,12 @@ if (animeConteneur) {
 
   function getSearchItems() {
     return Array.from(
-      document.querySelectorAll(".asp_r_pagepost.item, .item.asp_r_pagepost, .results .item, .item-summary")
-    ).filter((item) => Boolean(item.querySelector(".asp_res_url, .post-title a")));
+      document.querySelectorAll(
+        ".asp_r_pagepost.item, .item.asp_r_pagepost, .results .item, .item-summary",
+      ),
+    ).filter((item) =>
+      Boolean(item.querySelector(".asp_res_url, .post-title a")),
+    );
   }
 
   function renderSearchBookmarks() {
@@ -162,12 +188,23 @@ if (animeConteneur) {
       const title = titleEl?.textContent?.trim();
       if (!title) return;
 
-      const link = titleEl.closest("a")?.href || itemElement.querySelector("a")?.href || window.location.href;
+      const link =
+        titleEl.closest("a")?.href ||
+        itemElement.querySelector("a")?.href ||
+        window.location.href;
       const isSaved = Boolean(animeByTitle[title]);
       const alreadyInjected = itemElement.dataset.bookmarkInjected === "true";
 
       if (!alreadyInjected) {
-        injectBookmark(itemElement, title, link, isSaved, favFull, favEmpty, animeByTitle);
+        injectBookmark(
+          itemElement,
+          title,
+          link,
+          isSaved,
+          favFull,
+          favEmpty,
+          animeByTitle,
+        );
         itemElement.dataset.bookmarkInjected = "true";
       } else {
         const icon = itemElement.querySelector(".fav-icon");
@@ -193,7 +230,10 @@ if (animeConteneur) {
             shouldRender = true;
             break;
           }
-          if (node.querySelector && node.querySelector(".asp_r_pagepost, .item, .results")) {
+          if (
+            node.querySelector &&
+            node.querySelector(".asp_r_pagepost, .item, .results")
+          ) {
             shouldRender = true;
             break;
           }
@@ -209,7 +249,9 @@ if (animeConteneur) {
   }
 
   chrome.runtime.sendMessage({ action: "getAllAnime" }, (response) => {
-    if (!(response && response.status === "ok" && Array.isArray(response.data))) {
+    if (
+      !(response && response.status === "ok" && Array.isArray(response.data))
+    ) {
       console.warn("Pas de réponse du background ou erreur", response);
       return;
     }
@@ -228,7 +270,15 @@ if (animeConteneur) {
       if (!metaItem) return;
 
       metaItem.style.display = "flex";
-      injectBookmark(metaItem, title, link, Boolean(animeByTitle[title]), favFull, favEmpty, animeByTitle);
+      injectBookmark(
+        metaItem,
+        title,
+        link,
+        Boolean(animeByTitle[title]),
+        favFull,
+        favEmpty,
+        animeByTitle,
+      );
     });
 
     const searchInputs = document.querySelectorAll('input[type="search"]');
@@ -244,4 +294,3 @@ if (animeConteneur) {
     observeAjaxResults();
   });
 }
-

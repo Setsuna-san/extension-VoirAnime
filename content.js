@@ -7,24 +7,24 @@ function playNotifSound() {
 }
 
 
-window.addEventListener("DOMContentLoaded", () => {
-  if (document.getElementsByClassName("plyr-container")) {
-    const nextBtn = document.querySelector(".nav-next .next_page");
-    const previousBtn = document.querySelector(".nav-previous .prev_page");
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.action === "PlayNotifSound") {
+    playNotifSound();
+  }
+});
 
+window.addEventListener("DOMContentLoaded", () => {
+  const nextBtn = document.querySelector(".nav-next .next_page");
+  const previousBtn = document.querySelector(".nav-previous .prev_page");
+
+  if (document.getElementsByClassName("plyr-container").length) {
     chrome.runtime.onMessage.addListener((msg) => {
       if (msg.action === "nextEpisode") {
         nextBtn?.click();
       }
-
       if (msg.action === "previousEpisode") {
         previousBtn?.click();
       }
-
-      if (msg.action === "PlayNotifSound") {
-        playNotifSound();
-      }
-
     });
 
     console.log("Content : url validé");

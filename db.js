@@ -61,7 +61,7 @@ function safeSendMessage(msg) {
  * @property {boolean} anime.toWatch - Défini à true automatiquement.
  * @property {number} anime.episode - Initialisé à 0.
  */
-async function addToWatch(anime) {
+async function  addToWatch(anime) {
   const db = await openDB();
   const tx = db.transaction("anime", "readwrite");
   const store = tx.objectStore("anime");

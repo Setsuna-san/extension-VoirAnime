@@ -17,7 +17,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const nextBtn = document.querySelector(".nav-next .next_page");
   const previousBtn = document.querySelector(".nav-previous .prev_page");
 
-  if (document.getElementsByClassName("plyr-container").length) {
+  if (document.getElementsByClassName("plyr-container")) {
     chrome.runtime.onMessage.addListener((msg) => {
       if (msg.action === "nextEpisode") {
         nextBtn?.click();

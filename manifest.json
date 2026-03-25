@@ -46,12 +46,12 @@
 
   "content_scripts": [
     {
-      "matches": ["https://v6.voiranime.com/anime/*"],
+      "matches": ["https://voiranime.tv/anime/*"],
       "js": ["content.js"],
       "run_at": "document_start"
     },
     {
-      "matches": ["https://v6.voiranime.com/*"],
+      "matches": ["https://voiranime.tv/*"],
       "js": ["contentHub.js"],
       "run_at": "document_idle"
     },

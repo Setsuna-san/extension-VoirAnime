@@ -7,35 +7,35 @@ chrome.runtime.onInstalled.addListener(() => {
     id: "addAnime",
     title: "Add as new",
     contexts: ["link"],
-    targetUrlPatterns: ["https://v6.voiranime.com/anime/*"],
+    targetUrlPatterns: ["https://voiranime.tv/anime/*"],
   });
 
   chrome.contextMenus.create({
     id: "addAnimeToWatch",
     title: "Add to Watch List",
     contexts: ["link"],
-    targetUrlPatterns: ["https://v6.voiranime.com/anime/*"],
+    targetUrlPatterns: ["https://voiranime.tv/anime/*"],
   });
 
-  chrome.alarms.create(SCAN_ALARM_NAME, { periodInMinutes: 10 });
-  scanAndNotifyAvailable().catch((error) =>
-    console.warn("Scan initial failed", error),
-  );
+  // chrome.alarms.create(SCAN_ALARM_NAME, { periodInMinutes: 10 });
+  // scanAndNotifyAvailable().catch((error) =>
+  //   console.warn("Scan initial failed", error),
+  // );
 });
 
-chrome.runtime.onStartup.addListener(() => {
-  chrome.alarms.create(SCAN_ALARM_NAME, { periodInMinutes: 10 });
-  scanAndNotifyAvailable().catch((error) =>
-    console.warn("Scan startup failed", error),
-  );
-});
+// chrome.runtime.onStartup.addListener(() => {
+//   chrome.alarms.create(SCAN_ALARM_NAME, { periodInMinutes: 10 });
+//   scanAndNotifyAvailable().catch((error) =>
+//     console.warn("Scan startup failed", error),
+//   );
+// });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name !== SCAN_ALARM_NAME) return;
-  scanAndNotifyAvailable().catch((error) =>
-    console.warn("Scheduled scan failed", error),
-  );
-});
+// chrome.alarms.onAlarm.addListener((alarm) => {
+//   if (alarm.name !== SCAN_ALARM_NAME) return;
+//   scanAndNotifyAvailable().catch((error) =>
+//     console.warn("Scheduled scan failed", error),
+//   );
+// });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
   chrome.tabs.sendMessage(
@@ -109,17 +109,17 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     return true;
   }
 
-  if (msg.action === "scanAnime") {
-    scanAnime(msg.data).then((result) => sendResponse({ status: "ok", result }));
-    return true;
-  }
+  // if (msg.action === "scanAnime") {
+  //   scanAnime(msg.data).then((result) => sendResponse({ status: "ok", result }));
+  //   return true;
+  // }
 
-  if (msg.action === "scanPendingAnimes") {
-    scanAndNotifyAvailable().then((result) =>
-      sendResponse({ status: "ok", result }),
-    );
-    return true;
-  }
+  // if (msg.action === "scanPendingAnimes") {
+  //   scanAndNotifyAvailable().then((result) =>
+  //     sendResponse({ status: "ok", result }),
+  //   );
+  //   return true;
+  // }
 });
 
 chrome.commands.onCommand.addListener((command) => {

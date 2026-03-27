@@ -211,6 +211,67 @@ body {
   color: #7289da;
 }
 
+.btn-follow,
+.btn-scan {
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 0.2rem 0.35rem;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.btn-follow:hover,
+.btn-scan:hover {
+  background: #ffffff;
+  color: #1e1d24;
+}
+
+.btn-follow.active {
+  background: #7289da;
+  border-color: #fff;
+}
+
+.scan-badge {
+  display: inline-block;
+  margin-top: 0.2rem;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0.08rem 0.35rem;
+  border-radius: 10px;
+}
+
+.scan-badge.waiting {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.scan-badge.available {
+  background: #40b26b;
+}
+
+.scan-info {
+  text-align: center;
+  font-size: 12px;
+  min-height: 1.2rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.scan-info.success {
+  color: #69df97;
+}
+
+.scan-info.info {
+  color: #cfd6ff;
+}
+
+.scan-info.muted {
+  color: #949494;
+}
+
 .anime-btn .disabled {
   color: rgba(255, 255, 255, 0.32);
   stroke: rgba(255, 255, 255, 0.8);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "My VoirAnime List",
-  "version": "1.0",
+  "version": "1.3",
   "description": "Track les animés regardés pour avoir un historique",
 
   "action": {
@@ -16,7 +16,8 @@
     "128": "icon.png"
   },
 
-  "permissions": ["tabs", "storage", "contextMenus"],
+  "permissions": ["tabs", "storage", "contextMenus", "alarms", "notifications"],
+  "host_permissions": ["https://v6.voiranime.com/*"],
 
   "commands": {
     "next_episode": {

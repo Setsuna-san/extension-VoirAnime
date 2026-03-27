@@ -1,5 +1,6 @@
 importScripts("db.js");
 console.log("Background launched");
+const SCAN_ALARM_NAME = "scan-in-progress-animes";
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
@@ -15,6 +16,25 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ["link"],
     targetUrlPatterns: ["https://v6.voiranime.com/anime/*"],
   });
+
+  chrome.alarms.create(SCAN_ALARM_NAME, { periodInMinutes: 10 });
+  scanAndNotifyAvailable().catch((error) =>
+    console.warn("Scan initial failed", error),
+  );
+});
+
+chrome.runtime.onStartup.addListener(() => {
+  chrome.alarms.create(SCAN_ALARM_NAME, { periodInMinutes: 10 });
+  scanAndNotifyAvailable().catch((error) =>
+    console.warn("Scan startup failed", error),
+  );
+});
+
+chrome.alarms.onAlarm.addListener((alarm) => {
+  if (alarm.name !== SCAN_ALARM_NAME) return;
+  scanAndNotifyAvailable().catch((error) =>
+    console.warn("Scheduled scan failed", error),
+  );
 });
 
 chrome.contextMenus.onClicked.addListener((info, tab) => {
@@ -78,6 +98,25 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     console.log("Background : switch statut");
     switchStatut(msg.data.title, msg.data.statut, msg.data.value).then(() =>
       sendResponse({ status: "ok" }),
+    );
+    return true;
+  }
+
+  if (msg.action === "setInProgress") {
+    setAnimeInProgress(msg.data.title, msg.data.value).then((ok) =>
+      sendResponse({ status: ok ? "ok" : "not-found" }),
+    );
+    return true;
+  }
+
+  if (msg.action === "scanAnime") {
+    scanAnime(msg.data).then((result) => sendResponse({ status: "ok", result }));
+    return true;
+  }
+
+  if (msg.action === "scanPendingAnimes") {
+    scanAndNotifyAvailable().then((result) =>
+      sendResponse({ status: "ok", result }),
     );
     return true;
   }

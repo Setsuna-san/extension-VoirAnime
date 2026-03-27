@@ -32,6 +32,18 @@ window.addEventListener("message", (event) => {
   }
 });
 
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.action === "extension-data-changed") {
+    window.postMessage(
+      {
+        source: "MY_EXTENSION_NOTIFY",
+        action: msg.reason === "added-anime" ? "added-anime" : "edited-anime",
+      },
+      "*",
+    );
+  }
+});
+
 function syncWithApp() {
   console.log("Linker : Synchronisation déclenchée");
   chrome.runtime.sendMessage({ action: "getAllAnime" }, (response) => {

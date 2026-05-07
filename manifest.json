@@ -17,7 +17,7 @@
   },
 
   "permissions": ["tabs", "storage", "contextMenus", "alarms", "notifications"],
-  "host_permissions": ["https://voiranime.*"],
+  "host_permissions": ["https://voir-anime.to/*"],
 
   "commands": {
     "next_episode": {
@@ -47,12 +47,12 @@
 
   "content_scripts": [
     {
-      "matches": ["https://voiranime.tv/anime/*"],
+      "matches": ["https://voir-anime.to/anime/*"],
       "js": ["content.js"],
       "run_at": "document_start"
     },
     {
-      "matches": ["https://voiranime.tv/*"],
+      "matches": ["https://voir-anime.to/*"],
       "js": ["contentHub.js"],
       "run_at": "document_idle"
     },

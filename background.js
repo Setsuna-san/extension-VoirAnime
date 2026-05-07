@@ -6,14 +6,14 @@ chrome.runtime.onInstalled.addListener(() => {
     id: "addAnime",
     title: "Add as new",
     contexts: ["link"],
-    targetUrlPatterns: ["https://voiranime.tv/anime/*"],
+    targetUrlPatterns: ["https://voir-anime.to/anime/*"],
   });
 
   chrome.contextMenus.create({
     id: "addAnimeToWatch",
     title: "Add to Watch List",
     contexts: ["link"],
-    targetUrlPatterns: ["https://voiranime.tv/anime/*"],
+    targetUrlPatterns: ["https://voir-anime.to/anime/*"],
   });
 });
 

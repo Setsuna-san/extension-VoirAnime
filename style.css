@@ -104,7 +104,8 @@ body {
   border-color: white;
 }
 
-#anime-conteneur, #watch-conteneur {
+#anime-conteneur,
+#watch-conteneur {
   overflow-y: auto;
   overflow-x: hidden;
   max-height: 400px;
@@ -115,22 +116,26 @@ body {
 }
 
 /* Chrome / Edge */
-#anime-conteneur::-webkit-scrollbar, #watch-conteneur::-webkit-scrollbar {
+#anime-conteneur::-webkit-scrollbar,
+#watch-conteneur::-webkit-scrollbar {
   width: 8px;
 }
 
-#anime-conteneur::-webkit-scrollbar-track, #watch-conteneur::-webkit-scrollbar-track{
+#anime-conteneur::-webkit-scrollbar-track,
+#watch-conteneur::-webkit-scrollbar-track {
   background: #1e1e1e;
   border-radius: 10px;
 }
 
-#anime-conteneur::-webkit-scrollbar-thumb, #watch-conteneur::-webkit-scrollbar-thumb{
+#anime-conteneur::-webkit-scrollbar-thumb,
+#watch-conteneur::-webkit-scrollbar-thumb {
   background: #7289da;
   border-radius: 10px;
   border: 2px solid #1e1e1e;
 }
 
-#anime-conteneur::-webkit-scrollbar-thumb:hover, #watch-conteneur::-webkit-scrollbar-thumb:hover{
+#anime-conteneur::-webkit-scrollbar-thumb:hover,
+#watch-conteneur::-webkit-scrollbar-thumb:hover {
   background: #8ea1ff;
 }
 
@@ -211,30 +216,6 @@ body {
   color: #7289da;
 }
 
-.btn-follow,
-.btn-scan {
-  background: rgba(0, 0, 0, 0.25);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
-  font-size: 10px;
-  font-weight: 700;
-  padding: 0.2rem 0.35rem;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.btn-follow:hover,
-.btn-scan:hover {
-  background: #ffffff;
-  color: #1e1d24;
-}
-
-.btn-follow.active {
-  background: #7289da;
-  border-color: #fff;
-}
-
 .scan-badge {
   display: inline-block;
   margin-top: 0.2rem;
@@ -312,4 +293,13 @@ body {
   left: 5px;
   padding: 0.05em 0.2em 0.05em 0.2em;
   transform: translateY(-50%);
+}
+
+.btn-follow {
+  font-size: 20px;
+}
+
+.btn-follow.active {
+  color: rgb(202, 172, 202);
+
 }

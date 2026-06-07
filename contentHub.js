@@ -45,11 +45,12 @@ const boutons = document.getElementById("init-links");
 
 const animeConteneur = document.querySelector(".c-blog-listing");
 
+// si dans la page principal de l'animé
 if (breadcrumb.length == 3 && boutons) {
   const style = document.createElement("style");
 
   style.textContent = `
-  .c-btn_watch {
+  .c-btn_scan {
     background-color: transparent;
     color: #7289da ;
     border: 3px solid #7289da ;
@@ -58,37 +59,57 @@ if (breadcrumb.length == 3 && boutons) {
     transition : 0.4s ;
   }
 
-  .c-btn_watch:hover {
+  .c-btn_scan:hover {
     background-color: #7289da;
     color: #fff !important ;
   }
+
+
+
 `;
+  const btnScan = document.createElement("a");
+  btnScan.href = "#";
+  btnScan.id = "btn-scan";
+  btnScan.className = "c-btn c-btn_scan";
+  btnScan.textContent = "Scanner";
 
-  const btn = document.createElement("a");
-  btn.href = "#";
-  btn.id = "btn-add-watch";
-  btn.className = "c-btn c-btn_watch";
-  btn.textContent = "Watch list";
-
-  boutons.appendChild(btn);
+  // boutons.appendChild(btn);
+  boutons.appendChild(btnScan);
 
   boutons.appendChild(style);
 
-  btn?.addEventListener("click", (e) => {
+  btnScan?.addEventListener("click", async (e) => {
     e.preventDefault();
+    console.log("Contenthub : lancement scan");
 
-    const titre = document.getElementsByClassName("post-title")[0].textContent;
+    const episodes = document.querySelectorAll(".wp-manga-chapter a");
+    console.log("episode :", episodes);
 
-    const anime = {
-      title: titre.trim(),
-      url: window.location.href,
-    };
+    const promises = Array.from(episodes).map(async (el) => {
+      console.log("Contenthub : scan épisode");
 
-    console.log('ContentHub : manual add anime "to watch" : ' + anime.title);
-    chrome.runtime.sendMessage({
-      action: "addAnimeToWatch",
-      data: anime,
+      const url = el.href;
+
+      try {
+        const res = await fetch(url);
+        const html = await res.text();
+
+        const doc = new DOMParser().parseFromString(html, "text/html");
+
+        return {
+          url,
+          title: doc.querySelector("h1")?.textContent,
+          iframe: doc.querySelector("iframe")?.src,
+        };
+      } catch (err) {
+        console.error("Erreur sur", url, err);
+        return null;
+      }
     });
+
+    const results = await Promise.all(promises);
+
+    console.log("Contenthub : résultats scan", results);
   });
 }
 

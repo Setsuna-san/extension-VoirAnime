@@ -36,7 +36,7 @@ function createAnimeElement(anime, watch = false) {
   const scanBadge = anime.inProgress
     ? anime.scanAvailable
       ? `<span class="scan-badge available">Épisode dispo</span>`
-      : `<span class="scan-badge waiting">En attente (${elapsed(anime.date)})</span>`
+      : `<span class="scan-badge waiting">View ${elapsed(anime.date)} ago</span>`
     : "";
 
   const scanAction = watch
@@ -45,7 +45,7 @@ function createAnimeElement(anime, watch = false) {
 
   const followToggle = watch
     ? ""
-    : `<button class="btn-follow ${anime.inProgress ? "active" : ""}" data-action="toggle-follow" title="Surveiller cet animé">En cours</button>`;
+    : `<a class="btn-follow ${anime.inProgress ? "active" : ""}" data-action="toggle-follow" title="Surveiller cet animé">⏱</a>`;
 
   const next = anime.next
     ? `<a class="btn-next" data-url="${anime.next}">
@@ -60,8 +60,6 @@ function createAnimeElement(anime, watch = false) {
       ${scanBadge}
     </a>
     <div class="anime-btn">
-      ${followToggle}
-      ${scanAction}
       ${next}
     </div>
   `;
